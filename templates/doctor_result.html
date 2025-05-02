@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Search Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+        }
+        h2 {
+            color: #444;
+        }
+        .doctor-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 8px;
+        }
+        .no-result {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    {% if message %}
+        <p class="no-result">{{ message }}</p>
+    {% else %}
+        <h2>Doctors Specialized in "{{ specialist|title }}"</h2>
+        {% for doctor in doctor_list %}
+            <div class="doctor-card">
+                <p><strong>Name:</strong> {{ doctor.name }}</p>
+                <p><strong>Hospital:</strong> {{ doctor.hospital }}</p>
+                <p><strong>Location:</strong> {{ doctor.location[0] }}, {{ doctor.location[1] }}</p>
+                <iframe
+                    src="https://www.google.com/maps?q={{ doctor.location[0] }},{{ doctor.location[1] }}&hl=es;z=14&output=embed">
+                </iframe>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+</body>
+</html>

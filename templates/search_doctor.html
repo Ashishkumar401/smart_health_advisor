@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Doctor by Specialty</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #0066cc;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #2196F3;
+            color: white;
+        }
+        .message {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .bar-chart {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .bar-chart img {
+            width: 100%;
+            max-width: 700px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h2>Search Doctor by Specialty</h2>
+    <form method="POST" action="/search_doctor">
+        <input type="text" name="specialty" placeholder="Enter specialty (e.g. dentist)" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    {% if result %}
+    <table>
+        <tr><th>Doctor Name</th><th>Speciality</th></tr>
+        {% for row in result %}
+        <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if bar_image %}
+    <div class="bar-chart">
+        <h3>Doctor Specialization Distribution</h3>
+        <img src="{{ url_for('static', filename=bar_image) }}" alt="Specialization Chart">
+    </div>
+    {% endif %}
+</body>
+</html>

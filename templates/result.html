@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: url("/static/images/background.jpg") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0066cc;
+        }
+
+        .result-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(6px);
+        }
+
+        .result-container h2, .result-container h3 {
+            color: #333;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 15px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            font-size: 16px;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .result-container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prediction Result</h1>
+
+    <div class="result-container">
+        <h2>Disease: {{ disease }}</h2>
+        <h3>Probability: {{ probability }}%</h3>
+
+        <h3>Top Predictions:</h3>
+        <img src="/static/prediction.png" alt="Prediction Graph">
+
+        <h3>Recommended Doctors:</h3>
+        <ul>
+            {% for doctor in doctors %}
+                <li>{{ doctor }}</li>
+            {% endfor %}
+        </ul>
+
+        <a class="back-link" href="/">← Back to Home</a>
+    </div>
+
+</body>
+</html>

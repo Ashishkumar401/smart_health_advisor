@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Health Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .chatbox {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .message {
+            margin: 10px 0;
+        }
+        .user {
+            text-align: right;
+            color: blue;
+        }
+        .bot {
+            text-align: left;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbox">
+        <h2>🩺 Smart Health Chatbot</h2>
+        <div id="chat-area"></div>
+
+        <input type="text" id="user-input" placeholder="Type your question..." style="width: 80%;">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userMessage = $("#user-input").val();
+            if (userMessage.trim() === "") return;
+
+            $("#chat-area").append("<div class='message user'><b>You:</b> " + userMessage + "</div>");
+            $("#user-input").val("");
+
+            $.ajax({
+                url: "/chatbot",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ message: userMessage }),
+                success: function(response) {
+                    $("#chat-area").append("<div class='message bot'><b>Bot:</b> " + response.reply + "</div>");
+                },
+                error: function(xhr, status, error) {
+                    $("#chat-area").append("<div class='message bot'><b>Bot:</b> Error: " + error + "</div>");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

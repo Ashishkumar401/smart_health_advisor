@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Symptom Severity Visualization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .graph-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: inline-block;
+            max-width: 90%;
+        }
+
+        img {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+
+        .description {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Symptom Severity Graph</h1>
+    
+    <div class="graph-container">
+        <img src="{{ url_for('static', filename='symptom_plot.png') }}" alt="Symptom Severity Graph"/>
+        <div class="description">
+            This graph shows the severity levels of various symptoms you entered. Higher bars indicate more severe symptoms.
+        </div>
+    </div>
+
+    <br>
+    <a href="{{ url_for('home') }}">⬅️ Back to Home</a>
+</body>
+</html>

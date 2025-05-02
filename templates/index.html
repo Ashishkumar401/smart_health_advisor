@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Health Advisor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: url("/static/images/background.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0066cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h1 img {
+            height: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0066cc;
+        }
+
+        form, .chat-section {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #chatbox {
+            margin-top: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+            background: #eef4f7;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        #chatbox p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 600px) {
+            form, .chat-section {
+                width: 90%;
+            }
+        }
+
+        /* Hospital Map Button Styles */
+        .map-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .map-button button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .map-button button:hover {
+            background-color: #388e3c;
+        }
+
+        /* Doctor Search Button Styles */
+        .doctor-button {
+            position: absolute;
+            top: 20px;
+            left: 220px; /* Adjust this spacing to fit next to the hospital button */
+        }
+
+        .doctor-button button {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .doctor-button button:hover {
+            background-color: #1976D2;
+        }
+
+        /* Emergency Ambulance Button Styles */
+        .ambulance-button {
+            position: fixed;
+            bottom: 20px;
+            right: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+        }
+
+        .ambulance-button button {
+            padding: 12px 25px;
+            background-color: red;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .ambulance-button button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hospital Map Button (Top Left Corner) -->
+    <div class="map-button">
+        <a href="https://www.google.com/maps/search/hospitals+near+me/" target="_blank">
+            <button>🏥 Search Hospital Map</button>
+        </a>
+    </div>
+
+    <!-- Doctor Search Button (Top Left Corner) -->
+    <div class="doctor-button">
+        <a href="/search_doctor">
+            <button>🔍 Search Doctor</button>
+        </a>
+    </div>
+
+    <h1>
+        <img src="/static/images/doctor_icon.png" alt="Doctor Icon">
+        Smart Health Advisor
+    </h1>
+
+    <!-- Symptoms Input Form -->
+    <form action="/predict" method="post">
+        <label for="symptoms">Enter Symptoms (comma separated):</label>
+        <input type="text" id="symptoms" name="symptoms" placeholder="e.g., fever,cough,headache" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    <!-- Chatbot Section -->
+    <div class="chat-section">
+        <h2>Chat with HealthBot</h2>
+        <input type="text" id="user_input" placeholder="Type here...">
+        <button onclick="sendMessage()">Send</button>
+        <div id="chatbox"></div>
+    </div>
+
+    <!-- Symptom Severity Visualization -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('visualize_symptoms') }}">
+            <button style="background-color: #007bff;">Visualize Symptom Severity</button>
+        </a>
+    </div>
+
+    <!-- Emergency Ambulance Button (Bottom Center) -->
+    <div class="ambulance-button">
+        <a href="tel:102">
+            <button>🚑 Emergency Ambulance Booking</button>
+        </a>
+    </div>
+
+    <script>
+    function sendMessage() {
+        let msg = document.getElementById('user_input').value;
+        if (!msg.trim()) return;
+        fetch('/chatbot', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('chatbox').innerHTML += `<p><b>You:</b> ${msg}</p><p><b>Bot:</b> ${data.reply}</p>`;
+            document.getElementById('user_input').value = '';
+        });
+    }
+    </script>
+
+</body>
+</html>
