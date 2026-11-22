@@ -1,41 +1,22 @@
 # Smart Health Advisor
 
-## Short Description
-Smart Health Advisor is a Flask-based web application that provides preliminary medical guidance by predicting diseases based on user-entered symptoms and recommending specialized doctors. It also includes features like doctor search, appointment booking, chatbot interaction, and data visualizations.
+An educational Flask app that turns a list of symptoms into model scores, visualizes the five highest-scoring disease labels and looks up associated specialists in local CSV files.
 
-## How to Install/Run
+![Example of the model's top five scores](static/prediction.png)
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/smart-health-advisor.git
-   cd smart-health-advisor
-Install dependencies:
+## Follow one prediction
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Run the Flask app:
+1. The [Flask route](app.py) normalizes comma-separated symptom names.
+2. The [inference function](ml_model.py) encodes the names with `mlb.pkl`, loads `model.pkl` and plots the five highest class scores.
+3. The result page shows the highest-scoring label and specialist matches from the local dataset. A separate search lets users browse doctors by specialty.
 
-bash
-Copy
-Edit
+## Local setup
+
+From the repository root, set `base_path` in `app.py` to the local `data` directory. Then run:
+
+```sh
+python -m pip install flask pandas matplotlib seaborn scikit-learn joblib numpy
 python app.py
-Open in browser:
-Go to http://127.0.0.1:5000/ in your web browser.
-Usage
-Home Page: Enter symptoms to get disease prediction and doctor recommendations.
+```
 
-Search Doctor: Enter a specialization to view relevant doctors.
-
-Book Appointment: Fill out your name, number, preferred day and time to schedule an appointment.
-
-Chatbot: Ask basic health-related questions and get predefined responses.
-
-Bar Chart: Visualizes the number of doctors per specialization.
-License
-This project is for educational purposes only and is not intended for real-world medical use.
-
-Contact Info
-For any queries or suggestions, feel free to contact me:
-📧 aashishraj915@gmail.com
+Open the address printed by Flask. Run from the repository root so the encoder, model and static assets resolve correctly. This project demonstrates a classification workflow for educational use. The displayed scores have no established clinical interpretation.
